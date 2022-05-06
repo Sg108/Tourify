@@ -22,7 +22,7 @@ const mongoDBstore=require('connect-mongo')
 const dbUrl=process.env.DB_URL
 
 //mongodb://localhost:27017/adventure_tourism
-mongoose.connect('mongodb://localhost:27017/adventure_tourism',{
+mongoose.connect(dbUrl,{
     useNewUrlParser: true,
   
     useUnifiedTopology: true
@@ -46,7 +46,7 @@ app.set('views', path.join(__dirname, 'views'))
 //     console.log("session store error",e)
 // })
 const sessionconfig={
-    store:mongoDBstore.create({mongoUrl:'mongodb://localhost:27017/adventure_tourism'}),
+    store:mongoDBstore.create({mongoUrl:dbUrl}),
     resave:false,
     secret:'we',
     saveUninitialized:true,
@@ -143,6 +143,6 @@ app.use('/sites/:id/review',reviewRoutes)
 })
 
 
-app.listen(8000, () => {
+app.listen(process.env.PORT||8000, () => {
     console.log('Serving on port 8000')
 })
